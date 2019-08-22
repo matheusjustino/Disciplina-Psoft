@@ -1,13 +1,23 @@
 package psoft.roteiro1.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Disciplina implements Comparable<Disciplina> {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	private String nome;
 	private double nota;
 	
-	public Disciplina(Integer id, String nome, double nota) {
-		this.id = id;
+	public Disciplina() {
+	}
+	
+	public Disciplina(String nome, double nota) {
 		this.nome = nome;
 		this.nota = nota;
 	}

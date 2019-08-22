@@ -18,21 +18,22 @@ import psoft.roteiro1.services.DisciplinaServices;
 
 @RestController
 public class DisciplinaController {
-	
+
 	@Autowired
 	private DisciplinaServices disciplinaServices;
-	
+
 	@GetMapping("/disciplinas")
 	public ResponseEntity<List<Disciplina>> listarTodas() {
 		return new ResponseEntity<List<Disciplina>>(disciplinaServices.ListarDisciplinas(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/disciplinas/{id}")
 	public ResponseEntity<Disciplina> disciplina(@PathVariable(value = "id") Integer id) {
-		try {
-			return new ResponseEntity<Disciplina>(disciplinaServices.disciplina(id), HttpStatus.OK);
-		} catch (Exception e) {
+		Disciplina disc = disciplinaServices.disciplina(id);
+		if (disc == null) {
 			return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Disciplina>(disciplinaServices.disciplina(id), HttpStatus.OK);
 		}
 	}
 	
@@ -40,25 +41,29 @@ public class DisciplinaController {
 	public ResponseEntity<List<Disciplina>> ranking() {
 		return new ResponseEntity<List<Disciplina>>(disciplinaServices.ranking(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/disciplinas")
 	public ResponseEntity<Disciplina> addDisciplina(@RequestBody Disciplina disciplina) {
 		return new ResponseEntity<Disciplina>(disciplinaServices.addDisciplina(disciplina), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/disciplinas/{id}/nome")
-	public ResponseEntity<Disciplina> atualizaNomeDaDisciplina(@RequestBody Disciplina disciplina, @PathVariable(value = "id") Integer id) {
+	public ResponseEntity<Disciplina> atualizaNomeDaDisciplina(@RequestBody Disciplina disciplina,
+			@PathVariable(value = "id") Integer id) {
 		try {
-			return new ResponseEntity<Disciplina>(disciplinaServices.atualizaNomeDaDisciplina(id, disciplina), HttpStatus.OK);
+			return new ResponseEntity<Disciplina>(disciplinaServices.atualizaNomeDaDisciplina(disciplina, id),
+					HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@PutMapping("/disciplinas/{id}/nota")
-	public ResponseEntity<Disciplina> atualizaNotaDaDisciplina(@RequestBody Disciplina disciplina, @PathVariable(value = "id") Integer id) {
+	public ResponseEntity<Disciplina> atualizaNotaDaDisciplina(@RequestBody Disciplina disciplina,
+			@PathVariable(value = "id") Integer id) {
 		try {
-			return new ResponseEntity<Disciplina>(disciplinaServices.atualizaNotaDaDisciplina(id, disciplina), HttpStatus.OK);
+			return new ResponseEntity<Disciplina>(disciplinaServices.atualizaNotaDaDisciplina(disciplina, id),
+					HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Disciplina>(HttpStatus.NOT_FOUND);
 		}
